@@ -1,4 +1,4 @@
-# 🌿 Wejean Lin | Personal Portfolio
+# 🌿 Wejean Lin | Personal Web
 
 <p align="center"><a href="./README-CN.md">中文版</a></p>
 

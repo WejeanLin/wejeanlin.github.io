@@ -1,4 +1,4 @@
-# 🌿 Wejean Lin | 个人作品集
+# 🌿 Wejean Lin | 个人网页
 
 <p align="center"><a href="./README.md">English</a></p>
 
