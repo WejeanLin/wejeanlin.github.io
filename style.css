@@ -1,0 +1,310 @@
+/* ========================================
+   CSS Variables & Theme System
+   ======================================== */
+:root {
+  --bg: #FAFAF9;
+  --bg-next: #1C1F26;
+  --text: #2D3748;
+  --text-secondary: #718096;
+  --text-subtle: #A0AEC0;
+  --accent: #8B9DAB;
+  --accent-hover: #6B7D8D;
+  
+  --toast-bg: rgba(214, 222, 229, 0.95);
+  --toast-text: #2D3748;
+  --toast-progress-start: #D6DEE5;
+  --toast-progress-end: #8B9DAB;
+  
+  --container-max: 1200px;
+  --sidebar-width: 280px;
+  --spacing-section: clamp(3rem, 8vw, 5rem);
+  --spacing-block: clamp(1.5rem, 3vw, 2rem);
+  
+  --font-title: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --text-base: clamp(18px, 1.8vw, 20px);
+  --line-height: 1.9;
+  --letter-spacing: 0.03em;
+  
+  --ease-standard: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 0.3s;
+  --duration-normal: 0.6s;
+  --duration-slow: 0.8s; /* 🔹 统一为 0.8s 匹配动画节奏 */
+  
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.1);
+  --radius: 8px;
+  --touch-target: 44px;
+}
+
+[data-theme="dark"] {
+  --bg: #1C1F26;
+  --bg-next: #FAFAF9;
+  --text: #E2E8F0;
+  --text-secondary: #A0AEC0;
+  --text-subtle: #64748B;
+  --accent: #94A3B8;
+  --accent-hover: #B4C1CD;
+  
+  --toast-bg: rgba(42, 48, 58, 0.95);
+  --toast-text: #E2E8F0;
+  --toast-progress-start: #2A303A;
+  --toast-progress-end: #64748B;
+  
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ========================================
+   Base Reset & Typography
+   ======================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
+  color: var(--text);
+  background-color: var(--bg);
+  transition: background-color var(--duration-slow) var(--ease-smooth);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ========================================
+   Layout
+   ======================================== */
+.container {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  gap: var(--spacing-section);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem);
+  min-height: 100vh;
+}
+
+@media (min-width: 1024px) {
+  .sidebar { position: sticky; top: clamp(2rem, 5vw, 4rem); align-self: start; height: fit-content; }
+}
+
+@media (max-width: 1023px) {
+  .container { grid-template-columns: 1fr; padding: clamp(1.5rem, 4vw, 3rem); }
+  .sidebar {
+    display: flex; flex-direction: row; align-items: center; gap: 2rem;
+    padding-bottom: var(--spacing-block); border-bottom: 1px solid var(--text-secondary); opacity: 0.8;
+  }
+  .avatar-wrapper { margin-bottom: 0; }
+  .contact-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+}
+
+@media (max-width: 640px) {
+  .sidebar { flex-direction: column; align-items: flex-start; text-align: left; }
+  .contact-links { flex-direction: column; gap: 1rem; }
+}
+
+/* ========================================
+   Theme Toggle & Wipe 🔹 卡顿优化
+   ======================================== */
+.theme-toggle {
+  position: fixed; top: 2rem; right: 2rem; left: auto;
+  width: var(--touch-target); height: var(--touch-target);
+  border: none; border-radius: 50%; background: transparent;
+  color: var(--text); font-size: 1.4rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  transition: transform var(--duration-fast) var(--ease-standard),
+              background-color var(--duration-fast) var(--ease-standard);
+}
+.theme-toggle:hover { transform: scale(1.1); background: rgba(139, 157, 171, 0.15); }
+.theme-toggle:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.icon-moon { display: none; }
+[data-theme="dark"] .icon-sun { display: none; }
+[data-theme="dark"] .icon-moon { display: inline; }
+
+/* 🔹 优化：强制 GPU 合成 + 精确原点定位 */
+.theme-wipe {
+  position: fixed; inset: 0; z-index: 50;
+  background: var(--bg-next);
+  clip-path: circle(0% at var(--wipe-x, 95%) var(--wipe-y, 5%));
+  pointer-events: none;
+  will-change: clip-path;
+  transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.theme-wipe.active {
+  clip-path: circle(150% at var(--wipe-x, 95%) var(--wipe-y, 5%));
+}
+
+/* 🔹 优化：内容颜色平滑过渡，避免切换瞬间闪烁/卡顿感 */
+:root { --theme-transition: color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                          background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                          border-color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                          box-shadow 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+
+body, h1, h2, p, a, button, span, time, strong, li, .tag, .toast, .edu-item, .avatar-wrapper {
+  transition: var(--theme-transition);
+}
+
+/* ========================================
+   Sidebar: Avatar & Links
+   ======================================== */
+.avatar-wrapper {
+  width: clamp(100px, 20vw, 140px); aspect-ratio: 1;
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow-soft); background: var(--accent);
+  margin-bottom: 2rem;
+}
+.avatar { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--duration-normal) var(--ease-standard); }
+.avatar-wrapper:hover .avatar { transform: scale(1.03); }
+
+.contact-links { display: flex; flex-direction: column; gap: 1.25rem; }
+.contact-link {
+  color: var(--text-secondary); text-decoration: none; font-size: 0.95em;
+  padding: 0.4rem 0; position: relative; transition: color var(--duration-fast) var(--ease-standard);
+}
+.contact-link::after {
+  content: ''; position: absolute; bottom: 0; left: 50%;
+  width: 0; height: 1px; background: var(--accent);
+  transition: width var(--duration-fast) var(--ease-standard), left var(--duration-fast) var(--ease-standard);
+}
+.contact-link:hover { color: var(--accent); }
+.contact-link:hover::after { width: 100%; left: 0; }
+.contact-link.external::after { display: none; }
+
+/* ========================================
+   Content Sections
+   ======================================== */
+.content { display: flex; flex-direction: column; gap: var(--spacing-section); }
+.greeting { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+.emoji-wave {
+  display: inline-block; cursor: default; user-select: none;
+  transition: transform 0.2s var(--ease-standard);
+}
+.emoji-wave:hover { transform: scale(1.12); }
+
+.emoji-inner {
+  display: inline-block; font-size: clamp(2.4rem, 6vw, 3.2rem);
+  transform-origin: 70% 70%;
+  animation: wave 3s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  75% { transform: rotate(-8deg); }
+}
+
+.greeting-text { font-family: var(--font-title); font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 600; line-height: 1.4; }
+.name { color: var(--accent); font-style: italic; }
+.about p { color: var(--text-secondary); max-width: 65ch; }
+
+.interests h2, .education h2, .contact-cta h2 {
+  font-family: var(--font-title);
+  font-size: clamp(1.65rem, 3.2vw, 2rem);
+  font-weight: 600; margin-bottom: var(--spacing-block); color: var(--text); letter-spacing: 0.02em;
+}
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 0.75rem; list-style: none; }
+.tag {
+  padding: 0.4rem 1rem; background: rgba(139, 157, 171, 0.15); border-radius: 100px;
+  font-size: 0.9em; color: var(--text);
+  transition: background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+}
+.tag:hover { background: rgba(139, 157, 171, 0.3); transform: translateY(-2px); }
+
+.edu-item { padding-left: 1rem; border-left: 2px solid var(--accent); }
+.edu-item strong { display: block; font-size: 1.1rem; margin-bottom: 0.3rem; }
+.edu-item p { color: var(--text-secondary); margin-bottom: 0.2rem; }
+.edu-item time { font-size: 0.9em; color: var(--accent); }
+
+.contact-hint.subtle {
+  color: var(--text-subtle); font-size: 0.85em; margin-bottom: 0.875rem;
+  font-style: italic; opacity: 0.6; letter-spacing: 0.01em;
+}
+
+.contact-emails { display: flex; flex-direction: column; gap: 0.75rem; max-width: 400px; }
+
+.email-text {
+  background: none; border: none; padding: 0; margin: 0;
+  font-family: var(--font-body); font-size: inherit; line-height: inherit; letter-spacing: inherit;
+  color: var(--text); text-align: left; cursor: pointer;
+  position: relative; display: inline-flex; align-items: center;
+  min-height: var(--touch-target); width: fit-content;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+.email-text::after {
+  content: ''; position: absolute; bottom: -2px; left: 50%;
+  width: 0; height: 1px; background: var(--accent);
+  transition: width var(--duration-fast) var(--ease-standard), left var(--duration-fast) var(--ease-standard);
+}
+.email-text:hover { color: var(--accent); }
+.email-text:hover::after { width: 100%; left: 0; }
+.email-text:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* ========================================
+   Toast & Animations
+   ======================================== */
+.toast {
+  position: fixed; top: 2rem; left: 50%; transform: translateX(-50%) translateY(-20px);
+  background: var(--toast-bg); color: var(--toast-text); padding: 0.875rem 1.25rem;
+  border-radius: var(--radius); box-shadow: var(--shadow-hover);
+  display: flex; align-items: center; gap: 1rem; z-index: 200;
+  opacity: 0; pointer-events: none; max-width: calc(100vw - 4rem);
+  transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+}
+.toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+.toast-message { font-size: 0.95em; flex: 1; }
+.toast-close {
+  background: none; border: none; color: var(--toast-text); font-size: 1.2rem; cursor: pointer;
+  padding: 0.25rem; border-radius: 4px; opacity: 0.7; min-width: var(--touch-target); min-height: var(--touch-target);
+  display: flex; align-items: center; justify-content: center; transition: opacity 0.2s;
+}
+.toast-close:hover { opacity: 1; }
+.toast-progress {
+  position: absolute; bottom: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--toast-progress-start), var(--toast-progress-end));
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+.toast.animating .toast-progress { animation: progressFill 3s linear forwards; }
+@keyframes progressFill { to { width: 100%; } }
+
+.fade-in {
+  opacity: 0; transform: translateY(24px);
+  animation: fadeUp var(--duration-normal) var(--ease-smooth) forwards;
+  animation-delay: var(--delay, 0s); will-change: opacity, transform;
+}
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+.tag-list .tag, .contact-emails .email-text {
+  opacity: 0; transform: translateY(12px);
+  animation: fadeUp var(--duration-fast) var(--ease-standard) forwards;
+}
+.tag-list .tag:nth-child(1) { animation-delay: calc(var(--delay, 0s) + 0.1s); }
+.tag-list .tag:nth-child(2) { animation-delay: calc(var(--delay, 0s) + 0.2s); }
+.tag-list .tag:nth-child(3) { animation-delay: calc(var(--delay, 0s) + 0.3s); }
+.contact-emails .email-text:nth-child(1) { animation-delay: calc(var(--delay, 0s) + 0.15s); }
+.contact-emails .email-text:nth-child(2) { animation-delay: calc(var(--delay, 0s) + 0.3s); }
+
+/* ========================================
+   Accessibility
+   ======================================== */
+@media (prefers-contrast: high) {
+  :root { --text: #000; --text-secondary: #333; --text-subtle: #666; }
+  [data-theme="dark"] { --text: #fff; --text-secondary: #ccc; --text-subtle: #999; }
+  .contact-link, .email-text { text-decoration: underline; }
+}
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

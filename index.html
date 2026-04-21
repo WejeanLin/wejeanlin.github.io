@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wejean Lin - Personal Portfolio | AI Agents, Memory Systems, Computer Vision" />
+  <meta name="theme-color" content="#FAFAF9" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1C1F26" media="(prefers-color-scheme: dark)" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Wejean Lin | Personal Page" />
+  <meta property="og:description" content="Exploring AI agents, memory mechanisms, and computer vision." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://wejeanlin.github.io" />
+  
+  <title>Wejean Lin | Personal Page</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Theme Switcher (Top Right) -->
+  <button 
+    id="themeToggle" 
+    class="theme-toggle" 
+    aria-label="Toggle theme"
+    aria-pressed="false"
+  >
+    <span class="icon-sun" aria-hidden="true">☀️</span>
+    <span class="icon-moon" aria-hidden="true">🌙</span>
+  </button>
+
+  <!-- Theme Wipe Overlay -->
+  <div class="theme-wipe" aria-hidden="true"></div>
+
+  <!-- Main Layout -->
+  <main class="container">
+    
+    <!-- Sidebar: Profile & Links -->
+    <aside class="sidebar fade-in" style="--delay: 0.4s">
+      <div class="avatar-wrapper">
+        <img 
+          src="assets/avatar.jpg" 
+          alt="Wejean Lin's avatar" 
+          class="avatar"
+          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%238B9DAB%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2214%22 fill=%22white%22 text-anchor=%22middle%22%3EWL%3C/text%3E%3C/svg%3E'"
+        />
+      </div>
+      
+      <nav class="contact-links" aria-label="Contact links">
+        <a href="mailto:wejeanlin@qq.com" class="contact-link" data-email="wejeanlin@qq.com" aria-label="Email via QQ">
+          wejeanlin@qq.com
+        </a>
+        <a href="mailto:wejeanlin@outlook.com" class="contact-link" data-email="wejeanlin@outlook.com" aria-label="Email via Outlook">
+          wejeanlin@outlook.com
+        </a>
+        <a 
+          href="https://github.com/WejeanLin" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="contact-link external"
+          aria-label="Visit GitHub profile"
+        >
+          github.com/WejeanLin ↗
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <section class="content">
+      
+      <!-- Greeting -->
+      <header class="greeting fade-in" style="--delay: 0s">
+        <span class="emoji-wave" aria-hidden="true">
+          <span class="emoji-inner">👋</span>
+        </span>
+        <h1 class="greeting-text">
+          Hi there, I'm <span class="name">Wejean Lin</span>.
+        </h1>
+      </header>
+
+      <!-- About -->
+      <article class="about fade-in" style="--delay: 0.8s">
+        <p>
+          A student exploring where electronics meets artificial intelligence. 
+          I'm still learning the ropes, and right now I'm most fascinated by 
+          AI agents and how they remember information.
+        </p>
+      </article>
+
+      <!-- Interests -->
+      <section class="interests fade-in" style="--delay: 1.0s">
+        <h2>Interests</h2>
+        <ul class="tag-list">
+          <li class="tag">AI Agents</li>
+          <li class="tag">Agent Memory</li>
+          <li class="tag">Computer Vision</li>
+        </ul>
+      </section>
+
+      <!-- Education -->
+      <section class="education fade-in" style="--delay: 1.2s">
+        <h2>Education</h2>
+        <div class="edu-item">
+          <strong>Guangdong University of Education</strong>
+          <p>B.Eng. in Electronic Information Engineering</p>
+          <time>Sep 2024 – Present</time>
+        </div>
+      </section>
+
+      <!-- Contact CTA -->
+      <section class="contact-cta fade-in" style="--delay: 1.4s">
+        <h2>Contact</h2>
+        <p class="contact-hint subtle">Click any email to copy & reach out</p>
+        <div class="contact-emails">
+          <button class="email-text" data-email="wejeanlin@qq.com">wejeanlin@qq.com</button>
+          <button class="email-text" data-email="wejeanlin@outlook.com">wejeanlin@outlook.com</button>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+    <span class="toast-message">Copied. Feel free to contact me.</span>
+    <button class="toast-close" aria-label="Close notification">✕</button>
+    <div class="toast-progress" aria-hidden="true"></div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
