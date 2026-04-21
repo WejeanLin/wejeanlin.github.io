@@ -2,6 +2,13 @@
 
 <p align="center"><a href="./README-CN.md">中文版</a></p>
 
+
+<div align="center">
+
+[Live Demo](https://wejeanlin.github.io)
+
+</div>
+
 <p align="center">
   <img src="image-light.png" width="48%" style="vertical-align: middle;">
   <img src="image-dark.png" width="48%" style="vertical-align: middle;">
@@ -58,6 +65,6 @@ This project is open for personal and educational use. Feel free to fork, adapt,
 
 ---
 💌 **Contact**: [wejeanlin@outlook.com](mailto:wejeanlin@outlook.com) | [My GitHub](https://github.com/WejeanLin)  
-🌐 **Live Demo**: `https://wejeanlin.github.io`
+
 
 
