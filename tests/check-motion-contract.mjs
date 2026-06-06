@@ -5,10 +5,15 @@ const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
 const js = fs.readFileSync(new URL('../script.js', import.meta.url), 'utf8');
 
-assert.match(
-  html,
-  /<button\b(?=[^>]*\bclass="emoji-wave")(?=[^>]*\baria-label="High five")[^>]*>/,
-  'greeting hand should be an accessible high-five button'
+const buttonTags = html.match(/<button\b[^>]*>/g) ?? [];
+const matchingGreetingButtons = buttonTags.filter(
+  (tag) => /\bclass="emoji-wave"/.test(tag) && /\baria-label="High five"/.test(tag)
+);
+
+assert.equal(
+  matchingGreetingButtons.length,
+  1,
+  'greeting hand should be exactly one accessible high-five button'
 );
 
 assert.match(
