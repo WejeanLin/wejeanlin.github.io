@@ -226,6 +226,10 @@ body, h1, h2, p, a, button, span, time, strong, li, .tag, .toast, .edu-item, .av
   will-change: transform;
 }
 
+.emoji-wave.has-waved .emoji-inner {
+  animation: none;
+}
+
 .emoji-wave.high-five .emoji-inner {
   animation: highFive 540ms cubic-bezier(0.22, 1, 0.36, 1);
 }
