@@ -8,6 +8,7 @@
   --text-secondary: #718096;
   --text-subtle: #A0AEC0;
   --accent: #8B9DAB;
+  --accent-rgb: 139, 157, 171;
   --accent-hover: #6B7D8D;
   
   --toast-bg: rgba(214, 222, 229, 0.95);
@@ -45,6 +46,7 @@
   --text-secondary: #A0AEC0;
   --text-subtle: #64748B;
   --accent: #94A3B8;
+  --accent-rgb: 148, 163, 184;
   --accent-hover: #B4C1CD;
   
   --toast-bg: rgba(42, 48, 58, 0.95);
@@ -191,21 +193,74 @@ body, h1, h2, p, a, button, span, time, strong, li, .tag, .toast, .edu-item, .av
 .greeting { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 
 .emoji-wave {
-  display: inline-block; cursor: default; user-select: none;
-  transition: transform 0.2s var(--ease-standard);
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--touch-target); min-width: var(--touch-target);
+  height: var(--touch-target); min-height: var(--touch-target);
+  padding: 0; border: none; border-radius: 50%;
+  background: transparent; color: inherit;
+  font: inherit; line-height: 1; cursor: pointer; user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
-.emoji-wave:hover { transform: scale(1.12); }
+
+.emoji-ring {
+  position: absolute; inset: 0;
+  border: 1px solid rgba(var(--accent-rgb), 0.42);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.72);
+  pointer-events: none;
+}
 
 .emoji-inner {
-  display: inline-block; font-size: clamp(2.4rem, 6vw, 3.2rem);
-  transform-origin: 70% 70%;
-  animation: wave 3s ease-in-out infinite;
+  position: relative; z-index: 1;
+  display: inline-block;
+  font-size: clamp(2.4rem, 6vw, 3.2rem);
+  transform-origin: 70% 75%;
+  animation: greetingWave 1.18s ease-in-out 2;
   will-change: transform;
 }
-@keyframes wave {
+
+.emoji-wave.high-five .emoji-inner {
+  animation: highFive 540ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.emoji-wave.high-five .emoji-ring {
+  animation: highFiveRing 540ms ease-out;
+}
+
+@keyframes greetingWave {
   0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(10deg); }
-  75% { transform: rotate(-8deg); }
+  14% { transform: rotate(8deg); }
+  28% { transform: rotate(-5deg); }
+  43% { transform: rotate(7deg); }
+  58% { transform: rotate(-3deg); }
+  74% { transform: rotate(4deg); }
+  88% { transform: rotate(-2deg); }
+}
+
+@keyframes highFive {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  36% { transform: translateY(-2px) rotate(6deg) scale(1.13); }
+  62% { transform: translateY(0) rotate(-2deg) scale(1.04); }
+}
+
+@keyframes highFiveRing {
+  0% { opacity: 0; transform: scale(0.72); }
+  26% { opacity: 1; transform: scale(0.9); }
+  100% { opacity: 0; transform: scale(1.35); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emoji-inner,
+  .emoji-wave.high-five .emoji-inner,
+  .emoji-wave.high-five .emoji-ring {
+    animation: none !important;
+  }
+
+  .emoji-ring {
+    opacity: 0 !important;
+  }
 }
 
 .greeting-text { font-family: var(--font-title); font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 600; line-height: 1.4; }
