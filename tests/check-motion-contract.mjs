@@ -7,7 +7,7 @@ const js = fs.readFileSync(new URL('../script.js', import.meta.url), 'utf8');
 
 assert.match(
   html,
-  /<button[\s\S]*class="emoji-wave"[\s\S]*aria-label="High five"/,
+  /<button\b(?=[^>]*\bclass="emoji-wave")(?=[^>]*\baria-label="High five")[^>]*>/,
   'greeting hand should be an accessible high-five button'
 );
 
@@ -49,7 +49,7 @@ assert.match(
 
 assert.match(
   js,
-  /animationend/,
+  /addEventListener\(\s*['"]animationend['"]\s*,[\s\S]*?classList\.remove\(\s*['"]high-five['"]\s*\)/,
   'script should remove the high-five class after animation end'
 );
 
