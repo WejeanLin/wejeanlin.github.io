@@ -203,6 +203,11 @@ body, h1, h2, p, a, button, span, time, strong, li, .tag, .toast, .edu-item, .av
   -webkit-tap-highlight-color: transparent;
 }
 
+.emoji-wave:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
 .emoji-ring {
   position: absolute; inset: 0;
   border: 1px solid rgba(var(--accent-rgb), 0.42);
@@ -256,6 +261,7 @@ body, h1, h2, p, a, button, span, time, strong, li, .tag, .toast, .edu-item, .av
   .emoji-wave.high-five .emoji-inner,
   .emoji-wave.high-five .emoji-ring {
     animation: none !important;
+    transform: none !important;
   }
 
   .emoji-ring {
