@@ -10,6 +10,7 @@
   const html = document.documentElement;
   const toast = document.getElementById('toast');
   const toastClose = toast.querySelector('.toast-close');
+  const greetingHand = document.querySelector('.emoji-wave');
   
   let toastTimer = null;
 
@@ -78,12 +79,37 @@
     }
   };
 
+  const playHighFive = () => {
+    if (!greetingHand) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    greetingHand.classList.add('has-waved');
+    greetingHand.classList.remove('high-five');
+    void greetingHand.offsetWidth;
+    greetingHand.classList.add('high-five');
+  };
+
   // ========================================
   // Event Listeners
   // ========================================
   const setupListeners = () => {
     themeToggle.addEventListener('click', toggleTheme);
-    
+
+    if (greetingHand) {
+      greetingHand.addEventListener('click', playHighFive);
+      greetingHand.addEventListener('animationend', (e) => {
+        if (e.animationName === 'greetingWave') {
+          greetingHand.classList.add('has-waved');
+        }
+
+        if (e.animationName === 'highFive') {
+          greetingHand.classList.remove('high-five');
+        }
+      });
+    }
+
     document.querySelectorAll('[data-email]').forEach(el => {
       el.addEventListener('click', (e) => {
         e.preventDefault();
