@@ -168,9 +168,16 @@ body, h1, h2, p, a, button, span, time, strong, li, .tag, .toast, .edu-item, .av
   border-radius: var(--radius); overflow: hidden;
   box-shadow: var(--shadow-soft); background: var(--accent);
   margin-bottom: 2rem;
+  transition: transform var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard),
+              background-color var(--duration-fast) var(--ease-standard);
 }
 .avatar { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--duration-normal) var(--ease-standard); }
-.avatar-wrapper:hover .avatar { transform: scale(1.03); }
+.avatar-wrapper:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+.avatar-wrapper:hover .avatar { transform: scale(1.02); }
 
 .contact-links { display: flex; flex-direction: column; gap: 1.25rem; }
 .contact-link {
@@ -263,7 +270,8 @@ body, h1, h2, p, a, button, span, time, strong, li, .tag, .toast, .edu-item, .av
 @media (prefers-reduced-motion: reduce) {
   .emoji-inner,
   .emoji-wave.high-five .emoji-inner,
-  .emoji-wave.high-five .emoji-ring {
+  .emoji-wave.high-five .emoji-ring,
+  .edu-item::before {
     animation: none !important;
     transform: none !important;
   }
@@ -291,10 +299,30 @@ body, h1, h2, p, a, button, span, time, strong, li, .tag, .toast, .edu-item, .av
 }
 .tag:hover { background: rgba(139, 157, 171, 0.3); transform: translateY(-2px); }
 
-.edu-item { padding-left: 1rem; border-left: 2px solid var(--accent); }
+.edu-item {
+  position: relative;
+  padding-left: 1rem;
+  border-left: none;
+}
+.edu-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  animation: eduLineGrow var(--duration-normal) var(--ease-standard) forwards;
+}
 .edu-item strong { display: block; font-size: 1.1rem; margin-bottom: 0.3rem; }
 .edu-item p { color: var(--text-secondary); margin-bottom: 0.2rem; }
 .edu-item time { font-size: 0.9em; color: var(--accent); }
+
+@keyframes eduLineGrow {
+  to { transform: scaleY(1); }
+}
 
 .contact-hint.subtle {
   color: var(--text-subtle); font-size: 0.85em; margin-bottom: 0.875rem;
