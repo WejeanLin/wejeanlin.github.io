@@ -36,6 +36,12 @@ assert.match(
 
 assert.match(
   css,
+  /@keyframes\s+greetingWave[\s\S]*rotate\(6deg\)[\s\S]*rotate\(-2deg\)[\s\S]*rotate\(5deg\)[\s\S]*rotate\(-1\.5deg\)[\s\S]*rotate\(2\.5deg\)[\s\S]*rotate\(-0\.8deg\)/,
+  'entry greeting should use the restrained natural-wave keyframes'
+);
+
+assert.match(
+  css,
   /@keyframes\s+highFive[\s\S]*scale\(1\.13\)/,
   'V2 high-five should peak at restrained scale(1.13)'
 );
