@@ -168,9 +168,8 @@ body, h1, h2, p, a, button, span, time, strong, li, .tag, .toast, .edu-item, .av
   border-radius: var(--radius); overflow: hidden;
   box-shadow: var(--shadow-soft); background: var(--accent);
   margin-bottom: 2rem;
-  transition: transform var(--duration-fast) var(--ease-standard),
-              box-shadow var(--duration-fast) var(--ease-standard),
-              background-color var(--duration-fast) var(--ease-standard);
+  transition: var(--theme-transition),
+              transform var(--duration-fast) var(--ease-standard);
 }
 .avatar { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--duration-normal) var(--ease-standard); }
 .avatar-wrapper:hover {
